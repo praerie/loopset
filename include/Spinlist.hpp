@@ -14,16 +14,16 @@ public:
     Spinlist();
     ~Spinlist();
 
-    void add_song(std::string title, std::string artist, double duration);
-    bool remove_song(std::string title);
-    Node* find_song(std::string title);
-    void play_next();
-    void play_previous();
-    void display_playlist();
+    void addSong(std::string title, std::string artist, double duration);
+    bool removeSong(std::string title);
+    Node* findSong(std::string title);
+    void playNext();
+    void playPrevious();
+    void displayPlaylist();
 
-    void shuffle_playlist();
-    void sort_playlist(std::string by);
-    void reverse_playlist();
+    void shufflePlaylist();
+    void sortPlaylist(std::string by);
+    void reversePlaylist();
 };
 
 #endif
