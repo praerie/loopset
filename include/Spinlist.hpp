@@ -14,7 +14,7 @@ public:
     Spinlist();  // constructor
     ~Spinlist();  // deconstructor
 
-    void addSong(std::string title, std::string artist, double duration);
+    void addSong(std::string title, std::string artist, int minutes, int seconds);
     bool removeSong(std::string title);
     Node* findSong(std::string title);
     void playNext();

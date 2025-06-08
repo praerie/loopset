@@ -15,8 +15,8 @@ Spinlist::~Spinlist() {
     }
 }
 
-void Spinlist::addSong(std::string title, std::string artist, double duration) {
-    Song newSong(title, artist, duration);  // create a Song object
+void Spinlist::addSong(std::string title, std::string artist, int minutes, int seconds) {
+    Song newSong(title, artist, minutes, seconds);  // create a Song object
     Node* newNode = new Node(newSong);  // wrap it in a new Node
 
     if (head == nullptr) {
@@ -29,5 +29,8 @@ void Spinlist::addSong(std::string title, std::string artist, double duration) {
         tail = newNode;        // move tail to point to the new node
     }
 
-    std::cout << "Added: \"" << title << "\" by " << artist << " (" << duration << " mins)" << std::endl;
+    std::cout << "Added: \"" << title << "\" by " << artist
+          << " (" << minutes << "m " << seconds << "s)" << std::endl;
+
 }
+

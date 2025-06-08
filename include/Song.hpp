@@ -7,9 +7,10 @@ class Song {
 public:
     std::string title;
     std::string artist;
-    double duration;
+    int minutes;
+    int seconds;
 
-    Song(std::string t, std::string a, double d);
+    Song(std::string t, std::string a, int m, int s);
 };
 
 #endif
