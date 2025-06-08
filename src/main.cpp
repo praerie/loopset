@@ -14,5 +14,7 @@ int main() {
     myPlaylist.addSong("Nothing Better", "The Postal Service", 3, 47);
     myPlaylist.addSong("Le Matin", "Yann Tiersen", 1, 59);
 
+    myPlaylist.displayPlaylist();
+
     return 0;
 }

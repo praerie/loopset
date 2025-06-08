@@ -34,3 +34,17 @@ void Spinlist::addSong(std::string title, std::string artist, int minutes, int s
 
 }
 
+void Spinlist::displayPlaylist() {
+    Node* temp = head;
+    if (!temp) {
+        std::cout << "The playlist is empty.\n";
+        return;
+    }
+
+    std::cout << "Current Playlist:\n";
+    while (temp) {
+        std::cout << "- \"" << temp->song.title << "\" by " << temp->song.artist
+                  << " (" << temp->song.minutes << "m " << temp->song.seconds << "s)\n";
+        temp = temp->next;
+    }
+}
