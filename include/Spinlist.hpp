@@ -11,8 +11,8 @@ private:
     Node* current;
 
 public:
-    Spinlist();
-    ~Spinlist();
+    Spinlist();  // constructor
+    ~Spinlist();  // deconstructor
 
     void addSong(std::string title, std::string artist, double duration);
     bool removeSong(std::string title);
