@@ -9,7 +9,7 @@ public:
     Node* next;
     Node* prev;
 
-    Node(Song s);  // constructor
+    Node(Song s);
 };
 
 #endif

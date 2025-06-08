@@ -3,6 +3,18 @@
 #include <algorithm>
 #include <vector>
 
+Spinlist::Spinlist()
+    : head(nullptr), tail(nullptr), current(nullptr) {}
+
+Spinlist::~Spinlist() {
+    Node* temp = head;
+    while (temp != nullptr) {
+        Node* next = temp->next;
+        delete temp;
+        temp = next;
+    }
+}
+
 void Spinlist::addSong(std::string title, std::string artist, double duration) {
     Song newSong(title, artist, duration);  // create a Song object
     Node* newNode = new Node(newSong);  // wrap it in a new Node

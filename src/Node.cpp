@@ -1,15 +1,4 @@
-#ifndef NODE_HPP
-#define NODE_HPP
+#include "Node.hpp"
 
-#include "Song.hpp"
-
-class Node {
-public:
-    Song song;
-    Node* next;
-    Node* prev;
-
-    Node(Song s);
-};
-
-#endif
+Node::Node(Song s)
+    : song(s), next(nullptr), prev(nullptr) {}
