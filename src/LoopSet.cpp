@@ -66,3 +66,21 @@ void LoopSet::playNext() {
               << current->song.minutes << "m "
               << current->song.seconds << "s)\n";
 }
+
+void LoopSet::playPrevious() {
+    if (!current) {
+        std::cout << "Playlist is empty.\n";
+        return;
+    }
+
+    if (current->prev) {
+        current = current->prev;  // go back to previous song 
+    } else {
+        current = tail;  // play last song in list 
+    }
+
+    std::cout << "Now playing: \"" << current->song.title << "\" by "
+              << current->song.artist << " (" 
+              << current->song.minutes << "m "
+              << current->song.seconds << "s)\n";
+}

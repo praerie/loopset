@@ -16,8 +16,12 @@ int main() {
 
     myPlaylist.displayPlaylist();
 
-    myPlaylist.playNext();
-    myPlaylist.playNext();
+    myPlaylist.playNext(); // should go to Mulholland
+    myPlaylist.playNext(); // should go to Peaceful Place
+
+    myPlaylist.playPrevious(); // should go to Mulholland
+    myPlaylist.playPrevious(); // should go to In Camera
+    myPlaylist.playPrevious(); // should go to Le Matin (tail)
 
     return 0;
 }
