@@ -16,5 +16,8 @@ int main() {
 
     myPlaylist.displayPlaylist();
 
+    myPlaylist.playNext();
+    myPlaylist.playNext();
+
     return 0;
 }

@@ -48,3 +48,21 @@ void LoopSet::displayPlaylist() {
         temp = temp->next;
     }
 }
+
+void LoopSet::playNext() {
+    if (!current) {
+        std::cout << "Playlist is empty.\n";
+        return;
+    }
+
+    if (current->next) {
+        current = current->next;  // move to next song
+    } else {
+        current = head;  // loop back to start
+    }
+
+    std::cout << "Now playing: \"" << current->song.title << "\" by "
+              << current->song.artist << " (" 
+              << current->song.minutes << "m "
+              << current->song.seconds << "s)\n";
+}
