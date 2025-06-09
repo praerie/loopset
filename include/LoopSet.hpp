@@ -1,18 +1,18 @@
-#ifndef SPINLIST_HPP
-#define SPINLIST_HPP
+#ifndef LOOPSET_HPP
+#define LOOPSET_HPP
 
 #include "Node.hpp"
 #include <string>
 
-class Spinlist {
+class LoopSet {
 private:
     Node* head;
     Node* tail;
     Node* current;
 
 public:
-    Spinlist();  // constructor
-    ~Spinlist();  // deconstructor
+    LoopSet(); // constructor
+    ~LoopSet(); // deconstructor
 
     void addSong(std::string title, std::string artist, int minutes, int seconds);
     bool removeSong(std::string title);

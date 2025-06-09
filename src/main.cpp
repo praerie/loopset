@@ -1,7 +1,7 @@
-#include "Spinlist.hpp"
+#include "LoopSet.hpp"
 
 int main() {
-    Spinlist myPlaylist;
+    LoopSet myPlaylist;
     
     myPlaylist.addSong("In Camera", "Yumi Zouma", 3, 24);
     myPlaylist.addSong("Mulholland", "Hope Tala, sky", 3, 44);

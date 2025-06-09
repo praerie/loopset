@@ -1,12 +1,12 @@
-#include "Spinlist.hpp"
+#include "LoopSet.hpp"
 #include <iostream>
 #include <algorithm>
 #include <vector>
 
-Spinlist::Spinlist()
+LoopSet::LoopSet()
     : head(nullptr), tail(nullptr), current(nullptr) {}
 
-Spinlist::~Spinlist() {
+LoopSet::~LoopSet() {
     Node* temp = head;
     while (temp != nullptr) {
         Node* next = temp->next;
@@ -15,7 +15,7 @@ Spinlist::~Spinlist() {
     }
 }
 
-void Spinlist::addSong(std::string title, std::string artist, int minutes, int seconds) {
+void LoopSet::addSong(std::string title, std::string artist, int minutes, int seconds) {
     Song newSong(title, artist, minutes, seconds);  // create a Song object
     Node* newNode = new Node(newSong);  // wrap it in a new Node
 
@@ -34,7 +34,7 @@ void Spinlist::addSong(std::string title, std::string artist, int minutes, int s
 
 }
 
-void Spinlist::displayPlaylist() {
+void LoopSet::displayPlaylist() {
     Node* temp = head;
     if (!temp) {
         std::cout << "The playlist is empty.\n";
