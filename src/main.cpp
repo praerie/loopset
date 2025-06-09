@@ -16,12 +16,18 @@ int main() {
 
     myPlaylist.displayPlaylist();
 
-    myPlaylist.playNext(); // should go to Mulholland
-    myPlaylist.playNext(); // should go to Peaceful Place
+    myPlaylist.playNext(); // should move forward to Mulholland
+    myPlaylist.playNext(); // should move forward to Peaceful Place
 
-    myPlaylist.playPrevious(); // should go to Mulholland
-    myPlaylist.playPrevious(); // should go to In Camera
-    myPlaylist.playPrevious(); // should go to Le Matin (tail)
+    myPlaylist.playPrevious(); // should move backward to Mulholland
+    myPlaylist.playPrevious(); // should move backward to In Camera
+    myPlaylist.playPrevious(); // should move backward to Le Matin (tail)
+
+    myPlaylist.removeSong("Bilgewater"); 
+    myPlaylist.removeSong("Cosmic");
+    myPlaylist.removeSong("Red Bottom Sky");
+
+    myPlaylist.displayPlaylist(); // Bilgewater, Cosmic, and Red Bottom Sky should no longer appear
 
     return 0;
 }

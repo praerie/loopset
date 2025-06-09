@@ -84,3 +84,37 @@ void LoopSet::playPrevious() {
               << current->song.minutes << "m "
               << current->song.seconds << "s)\n";
 }
+
+bool LoopSet::removeSong(std::string title) {
+    Node* temp = head;
+
+    while (temp != nullptr) {
+        if (temp->song.title == title) {
+            if (temp == head) {
+                head = temp->next;  // move head forward if removing the first song
+                if (head) head->prev = nullptr;  // update new head's prev pointer
+            } else {
+                temp->prev->next = temp->next;  // bridge the previous node to the next
+            }
+
+            if (temp == tail) {
+                tail = temp->prev;  // update tail if we're removing the last song
+                if (tail) tail->next = nullptr;  // ensure the new tail has no next node
+            } else {
+                if (temp->next) temp->next->prev = temp->prev;  // link next node back to temp's previous node
+            }
+
+            if (temp == current) {
+                current = temp->next ? temp->next : head;  // move current forward, or loop to head if at end
+            }
+
+            delete temp;
+            std::cout << "Removed: \"" << title << "\" from the playlist.\n";
+            return true;
+        }
+        temp = temp->next;
+    }
+
+    std::cout << "Song \"" << title << "\" not found.\n";
+    return false;
+}
