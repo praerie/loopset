@@ -2,6 +2,8 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <ctime>
+#include <random>
 
 LoopSet::LoopSet()
     : head(nullptr), tail(nullptr), current(nullptr) {}
@@ -136,6 +138,44 @@ bool LoopSet::findSong(const std::string& title) {
     std::cout << "Song \"" << title << "\" not found in playlist.\n";
     return false;
 }
+
+void LoopSet::shufflePlaylist() {
+    if (!head || !head->next) {
+        std::cout << "Not enough songs to shuffle.\n";
+        return;
+    }
+
+    // step 1: copy nodes to vector
+    std::vector<Node*> nodes;
+    Node* temp = head;
+    while (temp) {
+        nodes.push_back(temp);  // append temp to nodes vector
+        temp = temp->next;
+    }
+
+    // step 2: shuffle the vector
+    // shuffle the order of the node pointers using a random seed based on the current time
+    // - nodes.begin() and nodes.end() define the range of elements to shuffle.
+    // - std::default_random_engine generates pseudo-random numbers.
+    // - static_cast<unsigned>(std::time(nullptr)) seeds the engine with the current time to ensure different results on each run.
+    std::shuffle(nodes.begin(), nodes.end(), std::default_random_engine(static_cast<unsigned>(std::time(nullptr))));
+
+    // step 3: relink nodes in shuffled order
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        // set previous pointer: if this is the first node, prev is null; else point to the previous node in the list
+        nodes[i]->prev = (i == 0) ? nullptr : nodes[i - 1];
+        // set next pointer: if this is the last node, next is null; else point to the next node in the list
+        nodes[i]->next = (i == nodes.size() - 1) ? nullptr : nodes[i + 1];
+    }
+
+    // step 4: update head, tail, and current
+    head = nodes.front();
+    tail = nodes.back();
+    current = head;
+
+    std::cout << "Playlist shuffled.\n";
+}
+
 
 // for testing purposes
 Node* LoopSet::getHead() const {

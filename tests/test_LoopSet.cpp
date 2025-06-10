@@ -59,6 +59,23 @@ void testFindSong() {
     assert(testPlaylist.findSong("Ghost Song") == false);
 }
 
+void testShufflePlaylist() {
+    LoopSet testPlaylist;
+
+    testPlaylist.addSong("A", "Artist", 1, 1);
+    testPlaylist.addSong("B", "Artist", 1, 2);
+    testPlaylist.addSong("C", "Artist", 1, 3);
+    testPlaylist.addSong("D", "Artist", 1, 4);
+    testPlaylist.addSong("E", "Artist", 1, 5);
+
+    std::cout << "Before shuffle:\n";
+    testPlaylist.displayPlaylist();
+
+    testPlaylist.shufflePlaylist();
+
+    std::cout << "After shuffle:\n";
+    testPlaylist.displayPlaylist();
+}
 
 int main() {
     testAddSongs();
@@ -66,6 +83,7 @@ int main() {
     testPlayNavigation();
     testRemoveSong();
     testFindSong();
+    testShufflePlaylist();
 
     std::cout << "All tests passed.\n";
     return 0;

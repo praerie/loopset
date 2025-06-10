@@ -33,5 +33,8 @@ int main() {
     myPlaylist.findSong("Le Matin");
     myPlaylist.findSong("Cosmic"); // removed in previous step, so shouldn't be found
 
+    myPlaylist.shufflePlaylist();
+    myPlaylist.displayPlaylist();
+
     return 0;
 }
