@@ -24,6 +24,9 @@ public:
     void shufflePlaylist();
     void sortPlaylist(std::string by);
     void reversePlaylist();
+
+    // for testing purposes
+    Node* getHead() const;
 };
 
 #endif

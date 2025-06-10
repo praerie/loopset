@@ -118,3 +118,8 @@ bool LoopSet::removeSong(std::string title) {
     std::cout << "Song \"" << title << "\" not found.\n";
     return false;
 }
+
+// for testing purposes
+Node* LoopSet::getHead() const {
+    return head;
+}
