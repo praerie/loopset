@@ -16,7 +16,7 @@ public:
 
     void addSong(std::string title, std::string artist, int minutes, int seconds);
     bool removeSong(std::string title);
-    Node* findSong(std::string title);
+    bool findSong(const std::string& title);
     void playNext();
     void playPrevious();
     void displayPlaylist();

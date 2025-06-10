@@ -119,6 +119,24 @@ bool LoopSet::removeSong(std::string title) {
     return false;
 }
 
+bool LoopSet::findSong(const std::string& title) {
+    Node* temp = head;
+
+    while (temp != nullptr) {
+        if (temp->song.title == title) {
+            std::cout << "Found: \"" << temp->song.title << "\" by "
+                      << temp->song.artist << " ("
+                      << temp->song.minutes << "m "
+                      << temp->song.seconds << "s)\n";
+            return true;
+        }
+        temp = temp->next;
+    }
+
+    std::cout << "Song \"" << title << "\" not found in playlist.\n";
+    return false;
+}
+
 // for testing purposes
 Node* LoopSet::getHead() const {
     return head;

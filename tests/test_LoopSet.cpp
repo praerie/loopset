@@ -49,11 +49,23 @@ void testRemoveSong() {
     assert(testPlaylist.removeSong("Ghost Song") == false);
 }
 
+void testFindSong() {
+    LoopSet testPlaylist;
+
+    testPlaylist.addSong("In Camera", "Yumi Zouma", 3, 24);
+    testPlaylist.addSong("Mulholland", "Hope Tala, sky", 3, 44);
+
+    assert(testPlaylist.findSong("In Camera") == true);
+    assert(testPlaylist.findSong("Ghost Song") == false);
+}
+
+
 int main() {
     testAddSongs();
     testDisplayPlaylist();
     testPlayNavigation();
     testRemoveSong();
+    testFindSong();
 
     std::cout << "All tests passed.\n";
     return 0;

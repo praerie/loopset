@@ -29,5 +29,9 @@ int main() {
 
     myPlaylist.displayPlaylist(); // Bilgewater, Cosmic, and Red Bottom Sky should no longer appear
 
+    myPlaylist.findSong("Hazey");
+    myPlaylist.findSong("Le Matin");
+    myPlaylist.findSong("Cosmic"); // removed in previous step, so shouldn't be found
+
     return 0;
 }
