@@ -16,24 +16,33 @@ int main() {
 
     myPlaylist.displayPlaylist();
 
-    myPlaylist.playNext(); // should move forward to Mulholland
-    myPlaylist.playNext(); // should move forward to Peaceful Place
+    myPlaylist.playNext();  // should move forward to Mulholland
+    myPlaylist.playNext();  // should move forward to Peaceful Place
 
-    myPlaylist.playPrevious(); // should move backward to Mulholland
-    myPlaylist.playPrevious(); // should move backward to In Camera
-    myPlaylist.playPrevious(); // should move backward to Le Matin (tail)
+    myPlaylist.playPrevious();  // should move backward to Mulholland
+    myPlaylist.playPrevious();  // should move backward to In Camera
+    myPlaylist.playPrevious();  // should move backward to Le Matin (tail)
 
     myPlaylist.removeSong("Bilgewater"); 
     myPlaylist.removeSong("Cosmic");
     myPlaylist.removeSong("Red Bottom Sky");
 
-    myPlaylist.displayPlaylist(); // Bilgewater, Cosmic, and Red Bottom Sky should no longer appear
+    myPlaylist.displayPlaylist();  // Bilgewater, Cosmic, and Red Bottom Sky should no longer appear
 
     myPlaylist.findSong("Hazey");
     myPlaylist.findSong("Le Matin");
-    myPlaylist.findSong("Cosmic"); // removed in previous step, so shouldn't be found
+    myPlaylist.findSong("Cosmic");  // removed in previous step, so shouldn't be found
 
     myPlaylist.shufflePlaylist();
+    myPlaylist.displayPlaylist();
+
+    myPlaylist.sortPlaylist(SortBy::Artist);  // sort by artist name
+    myPlaylist.displayPlaylist();
+
+    myPlaylist.sortPlaylist(SortBy::Title);  // sort by song title
+    myPlaylist.displayPlaylist();
+
+    myPlaylist.sortPlaylist(SortBy::Duration);  // sort by song length
     myPlaylist.displayPlaylist();
 
     return 0;

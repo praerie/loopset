@@ -77,6 +77,59 @@ void testShufflePlaylist() {
     testPlaylist.displayPlaylist();
 }
 
+void testSortByTitle() {
+    LoopSet playlist;
+    playlist.addSong("Zebra", "Artist", 3, 0);
+    playlist.addSong("Alaska", "Artist", 3, 0);
+    playlist.addSong("Middle", "Artist", 3, 0);
+
+    playlist.sortPlaylist(SortBy::Title);
+    playlist.displayPlaylist();
+
+    Node* head = playlist.getHead();
+    assert(head->song.title == "Alaska");
+    assert(head->next->song.title == "Middle");
+    assert(head->next->next->song.title == "Zebra");
+
+    std::cout << "[PASS] sort by title\n";
+}
+
+void testSortByArtist() {
+    LoopSet playlist;
+    playlist.addSong("Song A", "Zeta", 3, 0);
+    playlist.addSong("Song B", "Alpha", 3, 0);
+    playlist.addSong("Song C", "Gamma", 3, 0);
+
+    playlist.sortPlaylist(SortBy::Artist);
+    playlist.displayPlaylist();
+
+    Node* head = playlist.getHead();
+    assert(head->song.artist == "Alpha");
+    assert(head->next->song.artist == "Gamma");
+    assert(head->next->next->song.artist == "Zeta");
+
+    std::cout << "[PASS] sort by artist\n";
+}
+
+void testSortByDuration() {
+    LoopSet playlist;
+    playlist.addSong("Song A", "Artist", 3, 45); // 225s
+    playlist.addSong("Song B", "Artist", 2, 30); // 150s
+    playlist.addSong("Song C", "Artist", 4, 5);  // 245s
+
+    playlist.sortPlaylist(SortBy::Duration);
+    playlist.displayPlaylist();
+
+    Node* head = playlist.getHead();
+    int duration1 = head->song.minutes * 60 + head->song.seconds;
+    int duration2 = head->next->song.minutes * 60 + head->next->song.seconds;
+    int duration3 = head->next->next->song.minutes * 60 + head->next->next->song.seconds;
+
+    assert(duration1 <= duration2 && duration2 <= duration3);
+
+    std::cout << "[PASS] sort by duration\n";
+}
+
 int main() {
     testAddSongs();
     testDisplayPlaylist();
@@ -84,6 +137,9 @@ int main() {
     testRemoveSong();
     testFindSong();
     testShufflePlaylist();
+    testSortByTitle();
+    testSortByArtist();
+    testSortByDuration();
 
     std::cout << "All tests passed.\n";
     return 0;

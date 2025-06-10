@@ -4,6 +4,12 @@
 #include "Node.hpp"
 #include <string>
 
+enum class SortBy {
+    Title,
+    Artist,
+    Duration
+};
+
 class LoopSet {
 private:
     Node* head;
@@ -22,7 +28,7 @@ public:
     void displayPlaylist();
 
     void shufflePlaylist();
-    void sortPlaylist(std::string by);
+    void sortPlaylist(SortBy by);
     void reversePlaylist();
 
     // for testing purposes

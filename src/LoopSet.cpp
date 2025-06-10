@@ -176,6 +176,62 @@ void LoopSet::shufflePlaylist() {
     std::cout << "Playlist shuffled.\n";
 }
 
+std::string sortByToString(SortBy by) {
+    switch (by) {
+        case SortBy::Title:    return "title";
+        case SortBy::Artist:   return "artist";
+        case SortBy::Duration: return "duration";
+        default:               return "unknown";
+    }
+}
+
+void LoopSet::sortPlaylist(SortBy by) {
+    if (!head) return;
+
+    // step 1: extract all nodes into a vector
+    std::vector<Node*> nodes;
+    Node* temp = head;
+    while (temp) {
+        nodes.push_back(temp);  // append temp to nodes vector
+        temp = temp->next;
+    }
+
+    // step 2: sort based on selected attribute
+    switch (by) {
+        case SortBy::Title:
+            std::sort(nodes.begin(), nodes.end(), [](Node* a, Node* b) {
+                return a->song.title < b->song.title;
+            });
+            break;
+        case SortBy::Artist:
+            std::sort(nodes.begin(), nodes.end(), [](Node* a, Node* b) {
+                return a->song.artist < b->song.artist;
+            });
+            break;
+        case SortBy::Duration:
+            std::sort(nodes.begin(), nodes.end(), [](Node* a, Node* b) {
+                int aTotal = a->song.minutes * 60 + a->song.seconds;
+                int bTotal = b->song.minutes * 60 + b->song.seconds;
+                return aTotal < bTotal;
+            });
+            break;
+    }
+
+    // step 3: reconnect the nodes
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        // set previous pointer: if this is the first node, prev is null; else point to the previous node in the list
+        nodes[i]->prev = (i == 0) ? nullptr : nodes[i - 1];
+        // set next pointer: if this is the last node, next is null; else point to the next node in the list
+        nodes[i]->next = (i == nodes.size() - 1) ? nullptr : nodes[i + 1];
+    }
+
+    // step 4: update head, tail, and current
+    head = nodes[0];
+    tail = nodes.back();
+    current = head;
+
+    std::cout << "Playlist sorted by \"" << sortByToString(by) << "\".\n";
+}
 
 // for testing purposes
 Node* LoopSet::getHead() const {
