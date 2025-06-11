@@ -233,6 +233,34 @@ void LoopSet::sortPlaylist(SortBy by) {
     std::cout << "Playlist sorted by \"" << sortByToString(by) << "\".\n";
 }
 
+void LoopSet::reversePlaylist() {
+    if (!head || !head->next) {
+        std::cout << "Playlist is too short to reverse.\n";
+        return;
+    }
+
+    Node* temp = nullptr;
+    Node* currentNode = head;
+
+    // swap next and prev for all nodes
+    while (currentNode) {
+        temp = currentNode->prev;
+        currentNode->prev = currentNode->next;
+        currentNode->next = temp;
+        currentNode = currentNode->prev;  // previously currentNode->next
+    }
+
+    // swap head and tail
+    temp = head;
+    head = tail;
+    tail = temp;
+
+    // reset current pointer to new head
+    current = head;
+
+    std::cout << "Playlist order has been reversed.\n";
+}
+
 // for testing purposes
 Node* LoopSet::getHead() const {
     return head;

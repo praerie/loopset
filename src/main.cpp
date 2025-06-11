@@ -45,5 +45,8 @@ int main() {
     myPlaylist.sortPlaylist(SortBy::Duration);  // sort by song length
     myPlaylist.displayPlaylist();
 
+    myPlaylist.reversePlaylist();
+    myPlaylist.displayPlaylist();
+
     return 0;
 }

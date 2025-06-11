@@ -130,6 +130,28 @@ void testSortByDuration() {
     std::cout << "[PASS] sort by duration\n";
 }
 
+void testReversePlaylist() {
+    LoopSet playlist;
+    playlist.addSong("First", "Artist", 3, 0);
+    playlist.addSong("Second", "Artist", 3, 0);
+    playlist.addSong("Third", "Artist", 3, 0);
+
+    std::cout << "Original playlist:\n";
+    playlist.displayPlaylist();
+
+    playlist.reversePlaylist();
+
+    std::cout << "Reversed playlist:\n";
+    playlist.displayPlaylist();
+
+    Node* head = playlist.getHead();
+    assert(head->song.title == "Third");
+    assert(head->next->song.title == "Second");
+    assert(head->next->next->song.title == "First");
+
+    std::cout << "[PASS] reverse playlist\n";
+}
+
 int main() {
     testAddSongs();
     testDisplayPlaylist();
@@ -140,6 +162,7 @@ int main() {
     testSortByTitle();
     testSortByArtist();
     testSortByDuration();
+    testReversePlaylist();
 
     std::cout << "All tests passed.\n";
     return 0;
