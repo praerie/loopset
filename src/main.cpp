@@ -23,6 +23,7 @@ int main() {
     int choice;
 
     do {
+        // currently playing song display
         Node* nowPlaying = myPlaylist.getCurrent();  
         if (nowPlaying) {
             std::cout << "\n>> Currently playing: \"" << nowPlaying->song.title << "\" by "
@@ -130,7 +131,13 @@ int main() {
                 myPlaylist.shufflePlaylist();
                 break;
             case 8: {
+                if (!myPlaylist.getCurrent()) {
+                    std::cout << "The playlist is empty.\n";
+                    break;
+                }
+
                 int sortOption;
+
                 while (true) {
                     std::cout << "Sort by: 1) Title  2) Artist  3) Duration  (0 to cancel): ";
                     std::string input;
