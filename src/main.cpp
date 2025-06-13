@@ -20,19 +20,19 @@ int main() {
     myPlaylist.addSong("Nothing Better", "The Postal Service", 3, 47);
     myPlaylist.addSong("Le Matin", "Yann Tiersen", 1, 59);
 
-    Node* nowPlaying = myPlaylist.getCurrent();  
-    if (nowPlaying) {
-        std::cout << "\nNow Playing: \"" << nowPlaying->song.title << "\" by "
-                << nowPlaying->song.artist << " ("
-                << nowPlaying->song.minutes << "m "
-                << nowPlaying->song.seconds << "s)\n";
-    } else {
-        std::cout << "\nNo song is currently playing.\n";
-    }
-
     int choice;
 
     do {
+        Node* nowPlaying = myPlaylist.getCurrent();  
+        if (nowPlaying) {
+            std::cout << "\n>> Currently playing: \"" << nowPlaying->song.title << "\" by "
+                    << nowPlaying->song.artist << " ("
+                    << nowPlaying->song.minutes << "m "
+                    << nowPlaying->song.seconds << "s)\n";
+        } else {
+            std::cout << "\nNo song is currently playing.\n";
+        }
+        
         std::cout << "\nMenu:\n";
         std::cout << "1. Display playlist\n";
         std::cout << "2. Play next\n";

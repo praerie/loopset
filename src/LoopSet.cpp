@@ -71,11 +71,6 @@ void LoopSet::playNext() {
     } else {
         current = head;  // loop back to start
     }
-
-    std::cout << "Now playing: \"" << current->song.title << "\" by "
-              << current->song.artist << " (" 
-              << current->song.minutes << "m "
-              << current->song.seconds << "s)\n";
 }
 
 void LoopSet::playPrevious() {
@@ -89,19 +84,17 @@ void LoopSet::playPrevious() {
     } else {
         current = tail;  // play last song in list 
     }
-
-    std::cout << "Now playing: \"" << current->song.title << "\" by "
-              << current->song.artist << " (" 
-              << current->song.minutes << "m "
-              << current->song.seconds << "s)\n";
 }
 
-bool LoopSet::removeSong(std::string title) {
-    title = toLower(title);  // normalize input for comparison
+bool LoopSet::removeSong(std::string titleInput) {
+    std::string originalTitle = "";
+    std::string loweredTitle = toLower(titleInput);
     Node* temp = head;
 
     while (temp != nullptr) {
-        if (toLower(temp->song.title) == title) {
+        if (toLower(temp->song.title) == loweredTitle) {
+            originalTitle = temp->song.title;  // capture original casing
+
             if (temp == head) {
                 head = temp->next;
                 if (head) head->prev = nullptr;
@@ -121,22 +114,25 @@ bool LoopSet::removeSong(std::string title) {
             }
 
             delete temp;
-            std::cout << "Removed: \"" << title << "\" from the playlist.\n";
+            std::cout << "Removed: \"" << originalTitle << "\" from the playlist.\n";
             return true;
         }
         temp = temp->next;
     }
 
-    std::cout << "Song \"" << title << "\" not found in playlist.\n";
+    std::cout << "Song \"" << originalTitle << "\" not found in playlist.\n";
     return false;
 }
 
 bool LoopSet::findSong(const std::string& titleInput) {
-    std::string title = toLower(titleInput);
+    std::string originalTitle = "";
+    std::string loweredTitle = toLower(titleInput);
     Node* temp = head;
 
     while (temp != nullptr) {
-        if (toLower(temp->song.title) == title) {
+        if (toLower(temp->song.title) == loweredTitle) {
+            originalTitle = temp->song.title;  // capture original casing
+
             std::cout << "Found: \"" << temp->song.title << "\" by "
                       << temp->song.artist << " ("
                       << temp->song.minutes << "m "
@@ -153,10 +149,6 @@ bool LoopSet::findSong(const std::string& titleInput) {
 
                 if (choice == "p" || choice == "P") {
                     current = temp;
-                    std::cout << "Now playing: \"" << current->song.title << "\" by "
-                              << current->song.artist << " ("
-                              << current->song.minutes << "m "
-                              << current->song.seconds << "s)\n";
                     break;
                 } else if (choice == "r" || choice == "R") {
                     removeSong(temp->song.title); 
@@ -171,7 +163,7 @@ bool LoopSet::findSong(const std::string& titleInput) {
         temp = temp->next;
     }
 
-    std::cout << "Song \"" << titleInput << "\" not found in playlist.\n";
+    std::cout << "Song \"" << originalTitle << "\" not found in playlist.\n";
     return false;
 }
 
