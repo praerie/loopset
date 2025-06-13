@@ -1,4 +1,5 @@
 #include "LoopSet.hpp"
+#include "utils.hpp"
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -89,26 +90,27 @@ void LoopSet::playPrevious() {
 }
 
 bool LoopSet::removeSong(std::string title) {
+    title = toLower(title);  // normalize input for comparison
     Node* temp = head;
 
     while (temp != nullptr) {
-        if (temp->song.title == title) {
+        if (toLower(temp->song.title) == title) {
             if (temp == head) {
-                head = temp->next;  // move head forward if removing the first song
-                if (head) head->prev = nullptr;  // update new head's prev pointer
+                head = temp->next;
+                if (head) head->prev = nullptr;
             } else {
-                temp->prev->next = temp->next;  // bridge the previous node to the next
+                temp->prev->next = temp->next;
             }
 
             if (temp == tail) {
-                tail = temp->prev;  // update tail if we're removing the last song
-                if (tail) tail->next = nullptr;  // ensure the new tail has no next node
+                tail = temp->prev;
+                if (tail) tail->next = nullptr;
             } else {
-                if (temp->next) temp->next->prev = temp->prev;  // link next node back to temp's previous node
+                if (temp->next) temp->next->prev = temp->prev;
             }
 
             if (temp == current) {
-                current = temp->next ? temp->next : head;  // move current forward, or loop to head if at end
+                current = temp->next ? temp->next : head;
             }
 
             delete temp;
@@ -118,32 +120,51 @@ bool LoopSet::removeSong(std::string title) {
         temp = temp->next;
     }
 
-    std::cout << "Song \"" << title << "\" not found.\n";
+    std::cout << "Song \"" << title << "\" not found in playlist.\n";
     return false;
 }
 
-bool LoopSet::findSong(const std::string& title) {
-    auto toLower = [](std::string str) {
-        std::transform(str.begin(), str.end(), str.begin(),
-                       [](unsigned char c) { return std::tolower(c); });
-        return str;
-    };
-
-    std::string loweredTitle = toLower(title);
-
+bool LoopSet::findSong(const std::string& titleInput) {
+    std::string title = toLower(titleInput);
     Node* temp = head;
+
     while (temp != nullptr) {
-        if (toLower(temp->song.title) == loweredTitle) {
+        if (toLower(temp->song.title) == title) {
             std::cout << "Found: \"" << temp->song.title << "\" by "
                       << temp->song.artist << " ("
                       << temp->song.minutes << "m "
                       << temp->song.seconds << "s)\n";
+
+            std::string choice;
+            while (true) {
+                std::cout << "What would you like to do? (p = play, r = remove, enter = nothing): ";
+                std::getline(std::cin, choice);
+                if (choice.empty()) {
+                    std::cout << "No action was taken.";
+                    break;
+                }
+
+                if (choice == "p" || choice == "P") {
+                    current = temp;
+                    std::cout << "Now playing: \"" << current->song.title << "\" by "
+                              << current->song.artist << " ("
+                              << current->song.minutes << "m "
+                              << current->song.seconds << "s)\n";
+                    break;
+                } else if (choice == "r" || choice == "R") {
+                    removeSong(temp->song.title); 
+                    break;
+                } else {
+                    std::cout << "Invalid input. Try again.\n";
+                }
+            }
+
             return true;
         }
         temp = temp->next;
     }
 
-    std::cout << "Song \"" << title << "\" not found in playlist.\n";
+    std::cout << "Song \"" << titleInput << "\" not found in playlist.\n";
     return false;
 }
 

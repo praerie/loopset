@@ -1,37 +1,9 @@
+#include "LoopSet.hpp"
+#include "utils.hpp"
 #include <iostream>
 #include <sstream>
 #include <limits>
-#include "LoopSet.hpp"
 #include <cctype>
-
-std::string trim(const std::string& str) {
-    auto start = str.begin();
-    while (start != str.end() && std::isspace(*start)) start++;
-
-    auto end = str.end();
-    do {
-        end--;
-    } while (std::distance(start, end) > 0 && std::isspace(*end));
-
-    return std::string(start, end + 1);
-}
-
-std::string getValidatedInput(const std::string& prompt) {
-    std::string input;
-    while (true) {
-        std::cout << prompt;
-        std::getline(std::cin, input);
-        input = trim(input);
-
-        if (input.empty()) {
-            std::cout << "Cancelled.\n";
-            return "";
-        }
-
-        // valid (not just whitespace)
-        return input;
-    }
-}
 
 int main() {
     LoopSet myPlaylist;
@@ -128,16 +100,30 @@ int main() {
                 break;
             }
             case 5: {
-                std::string title;
-                std::cout << "Enter song title to remove: ";
-                std::getline(std::cin, title);
-                myPlaylist.removeSong(title);
+                while (true) {
+                    std::string title = getValidatedInput("Enter song title to remove (or leave blank to cancel): ");
+                    if (title.empty()) break;
+
+                    if (myPlaylist.removeSong(title)) {
+                        break;  // found and handled
+                    } else {
+                        std::cout << "Try again or press enter to cancel.\n";
+                    }
+                }
                 break;
             }
             case 6: {
-                std::string title = getValidatedInput("Enter song title to find (or leave blank to cancel): ");
-                if (title.empty()) break;
-                myPlaylist.findSong(title);
+                std::string title;
+                while (true) {
+                    title = getValidatedInput("Enter song title to find (or leave blank to cancel): ");
+                    if (title.empty()) break;
+
+                    if (myPlaylist.findSong(title)) {
+                        break;  // found and handled
+                    } else {
+                        std::cout << "Try again or press enter to cancel.\n";
+                    }
+                }
                 break;
             }
             case 7:
