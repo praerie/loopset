@@ -32,6 +32,7 @@ public:
     void reversePlaylist();
 
     Node* getCurrent() const;
+    void restoreCurrentByTitle(const std::string& title);
 };
 
 #endif

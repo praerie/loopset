@@ -18,6 +18,13 @@ LoopSet::~LoopSet() {
     }
 }
 
+void LoopSet::restoreCurrentByTitle(const std::string& title) {
+    current = head;
+    while (current && current->song.title != title) {
+        current = current->next;
+    }
+}
+
 void LoopSet::addSong(std::string title, std::string artist, int minutes, int seconds) {
     Song newSong(title, artist, minutes, seconds);  // create a Song object
     Node* newNode = new Node(newSong);  // wrap it in a new Node
@@ -169,6 +176,9 @@ bool LoopSet::findSong(const std::string& titleInput) {
 }
 
 void LoopSet::shufflePlaylist() {
+    //step 0: save current song before changes
+    std::string currentTitle = current ? current->song.title : "";
+
     if (!head || !head->next) {
         std::cout << "Not enough songs to shuffle.\n";
         return;
@@ -200,7 +210,7 @@ void LoopSet::shufflePlaylist() {
     // step 4: update head, tail, and current
     head = nodes.front();
     tail = nodes.back();
-    current = head;
+    restoreCurrentByTitle(currentTitle);
 
     std::cout << "Playlist shuffled.\n";
 }
@@ -215,6 +225,9 @@ std::string sortByToString(SortBy by) {
 }
 
 void LoopSet::sortPlaylist(SortBy by) {
+    //step 0: save current song before changes
+    std::string currentTitle = current ? current->song.title : "";
+
     if (!head) return;
 
     // step 1: extract all nodes into a vector
@@ -257,12 +270,15 @@ void LoopSet::sortPlaylist(SortBy by) {
     // step 4: update head, tail, and current
     head = nodes[0];
     tail = nodes.back();
-    current = head;
+    restoreCurrentByTitle(currentTitle);
 
     std::cout << "Playlist sorted by \"" << sortByToString(by) << "\".\n";
 }
 
 void LoopSet::reversePlaylist() {
+    //step 0: save current song before changes
+    std::string currentTitle = current ? current->song.title : "";
+
     if (!head || !head->next) {
         std::cout << "Playlist is too short to reverse.\n";
         return;
@@ -284,8 +300,7 @@ void LoopSet::reversePlaylist() {
     head = tail;
     tail = temp;
 
-    // reset current pointer to new head
-    current = head;
+    restoreCurrentByTitle(currentTitle);
 
     std::cout << "Playlist order has been reversed.\n";
 }
