@@ -8,7 +8,7 @@ void testAddSongs() {
     testPlaylist.addSong("In Camera", "Yumi Zouma", 3, 24);
     testPlaylist.addSong("Mulholland", "Hope Tala, sky", 3, 44);
 
-    Node* head = testPlaylist.getHead();
+    Node* head = testPlaylist.getCurrent();
 
     assert(head != nullptr);
     assert(head->song.title == "In Camera");
@@ -86,7 +86,7 @@ void testSortByTitle() {
     playlist.sortPlaylist(SortBy::Title);
     playlist.displayPlaylist();
 
-    Node* head = playlist.getHead();
+    Node* head = playlist.getCurrent();
     assert(head->song.title == "Alaska");
     assert(head->next->song.title == "Middle");
     assert(head->next->next->song.title == "Zebra");
@@ -103,7 +103,7 @@ void testSortByArtist() {
     playlist.sortPlaylist(SortBy::Artist);
     playlist.displayPlaylist();
 
-    Node* head = playlist.getHead();
+    Node* head = playlist.getCurrent();
     assert(head->song.artist == "Alpha");
     assert(head->next->song.artist == "Gamma");
     assert(head->next->next->song.artist == "Zeta");
@@ -120,7 +120,7 @@ void testSortByDuration() {
     playlist.sortPlaylist(SortBy::Duration);
     playlist.displayPlaylist();
 
-    Node* head = playlist.getHead();
+    Node* head = playlist.getCurrent();
     int duration1 = head->song.minutes * 60 + head->song.seconds;
     int duration2 = head->next->song.minutes * 60 + head->next->song.seconds;
     int duration3 = head->next->next->song.minutes * 60 + head->next->next->song.seconds;
@@ -144,7 +144,7 @@ void testReversePlaylist() {
     std::cout << "Reversed playlist:\n";
     playlist.displayPlaylist();
 
-    Node* head = playlist.getHead();
+    Node* head = playlist.getCurrent();
     assert(head->song.title == "Third");
     assert(head->next->song.title == "Second");
     assert(head->next->next->song.title == "First");

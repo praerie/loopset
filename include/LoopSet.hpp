@@ -31,8 +31,7 @@ public:
     void sortPlaylist(SortBy by);
     void reversePlaylist();
 
-    // for testing purposes
-    Node* getHead() const;
+    Node* getCurrent() const;
 };
 
 #endif

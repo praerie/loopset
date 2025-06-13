@@ -45,7 +45,8 @@ void LoopSet::displayPlaylist() {
 
     std::cout << "Current Playlist:\n";
     while (temp) {
-        std::cout << "- \"" << temp->song.title << "\" by " << temp->song.artist
+        std::cout << (temp == current ? ">> " : "   ");
+        std::cout << "\"" << temp->song.title << "\" by " << temp->song.artist
                   << " (" << temp->song.minutes << "m " << temp->song.seconds << "s)\n";
         temp = temp->next;
     }
@@ -261,7 +262,6 @@ void LoopSet::reversePlaylist() {
     std::cout << "Playlist order has been reversed.\n";
 }
 
-// for testing purposes
-Node* LoopSet::getHead() const {
-    return head;
+Node* LoopSet::getCurrent() const {
+    return current;
 }

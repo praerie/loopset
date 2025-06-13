@@ -1,8 +1,11 @@
+#include <iostream>
+#include <limits>
 #include "LoopSet.hpp"
 
 int main() {
     LoopSet myPlaylist;
-    
+
+    // preload songs
     myPlaylist.addSong("In Camera", "Yumi Zouma", 3, 24);
     myPlaylist.addSong("Mulholland", "Hope Tala, sky", 3, 44);
     myPlaylist.addSong("Peaceful Place", "Leon Bridges", 4, 15);
@@ -14,39 +17,141 @@ int main() {
     myPlaylist.addSong("Nothing Better", "The Postal Service", 3, 47);
     myPlaylist.addSong("Le Matin", "Yann Tiersen", 1, 59);
 
-    myPlaylist.displayPlaylist();
+    Node* nowPlaying = myPlaylist.getCurrent();  
+    if (nowPlaying) {
+        std::cout << "\nNow Playing: \"" << nowPlaying->song.title << "\" by "
+                << nowPlaying->song.artist << " ("
+                << nowPlaying->song.minutes << "m "
+                << nowPlaying->song.seconds << "s)\n";
+    } else {
+        std::cout << "\nNo song is currently playing.\n";
+    }
 
-    myPlaylist.playNext();  // should move forward to Mulholland
-    myPlaylist.playNext();  // should move forward to Peaceful Place
+    int choice;
 
-    myPlaylist.playPrevious();  // should move backward to Mulholland
-    myPlaylist.playPrevious();  // should move backward to In Camera
-    myPlaylist.playPrevious();  // should move backward to Le Matin (tail)
+    do {
+        std::cout << "\nMenu:\n";
+        std::cout << "1. Display playlist\n";
+        std::cout << "2. Play next\n";
+        std::cout << "3. Play previous\n";
+        std::cout << "4. Add song\n";
+        std::cout << "5. Remove song\n";
+        std::cout << "6. Find song\n";
+        std::cout << "7. Shuffle playlist\n";
+        std::cout << "8. Sort playlist\n";
+        std::cout << "9. Reverse playlist\n";
+        std::cout << "0. Exit\n";
+        std::cout << "Choose an option: ";
+        std::cin >> choice;
 
-    myPlaylist.removeSong("Bilgewater"); 
-    myPlaylist.removeSong("Cosmic");
-    myPlaylist.removeSong("Red Bottom Sky");
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid input. Please enter a number.\n";
+            continue;
+        }
 
-    myPlaylist.displayPlaylist();  // Bilgewater, Cosmic, and Red Bottom Sky should no longer appear
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    myPlaylist.findSong("Hazey");
-    myPlaylist.findSong("Le Matin");
-    myPlaylist.findSong("Cosmic");  // removed in previous step, so shouldn't be found
+        switch (choice) {
+            case 1:
+                myPlaylist.displayPlaylist();
+                break;
+            case 2:
+                myPlaylist.playNext();
+                break;
+            case 3:
+                myPlaylist.playPrevious();
+                break;
+            case 4: {
+                std::string title, artist;
+                int minutes, seconds;
 
-    myPlaylist.shufflePlaylist();
-    myPlaylist.displayPlaylist();
+                std::cout << "Enter title: ";
+                std::getline(std::cin, title);
+                std::cout << "Enter artist: ";
+                std::getline(std::cin, artist);
 
-    myPlaylist.sortPlaylist(SortBy::Artist);  // sort by artist name
-    myPlaylist.displayPlaylist();
+                std::cout << "Enter minutes: ";
+                std::cin >> minutes;
+                if (std::cin.fail() || minutes < 0) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Invalid minutes input.\n";
+                    break;
+                }
 
-    myPlaylist.sortPlaylist(SortBy::Title);  // sort by song title
-    myPlaylist.displayPlaylist();
+                std::cout << "Enter seconds: ";
+                std::cin >> seconds;
+                if (std::cin.fail() || seconds < 0 || seconds > 59) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Invalid seconds input. Must be 0-59.\n";
+                    break;
+                }
 
-    myPlaylist.sortPlaylist(SortBy::Duration);  // sort by song length
-    myPlaylist.displayPlaylist();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                myPlaylist.addSong(title, artist, minutes, seconds);
+                break;
+            }
+            case 5: {
+                std::string title;
+                std::cout << "Enter song title to remove: ";
+                std::getline(std::cin, title);
+                myPlaylist.removeSong(title);
+                break;
+            }
+            case 6: {
+                std::string title;
+                std::cout << "Enter song title to find: ";
+                std::getline(std::cin, title);
+                myPlaylist.findSong(title);
+                break;
+            }
+            case 7:
+                myPlaylist.shufflePlaylist();
+                break;
+            case 8: {
+                int sortOption;
+                while (true) {
+                    std::cout << "Sort by: 1) Title  2) Artist  3) Duration  (0 to cancel): ";
+                    std::string input;
+                    std::getline(std::cin, input);
 
-    myPlaylist.reversePlaylist();
-    myPlaylist.displayPlaylist();
+                    if (input.empty() || input == "0") {
+                        std::cout << "Sort cancelled.\n";
+                        break;
+                    }
+
+                    try {
+                        sortOption = std::stoi(input);
+                        if (sortOption >= 1 && sortOption <= 3) {
+                            SortBy sortType = (sortOption == 1) ? SortBy::Title
+                                            : (sortOption == 2) ? SortBy::Artist
+                                            : SortBy::Duration;
+                            myPlaylist.sortPlaylist(sortType);
+                            myPlaylist.displayPlaylist();
+                            break;
+                        } else {
+                            std::cout << "Invalid option. Please enter 1, 2, 3, or 0 to cancel.\n";
+                        }
+                    } catch (...) {
+                        std::cout << "Invalid input. Please enter a number.\n";
+                    }
+                }
+                break;
+            }
+            case 9:
+                myPlaylist.reversePlaylist();
+                break;
+            case 0:
+                std::cout << "Goodbye!\n";
+                break;
+            default:
+                std::cout << "Invalid option. Try again.\n";
+        }
+
+    } while (choice != 0);
 
     return 0;
 }
