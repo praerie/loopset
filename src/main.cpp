@@ -1,6 +1,37 @@
 #include <iostream>
+#include <sstream>
 #include <limits>
 #include "LoopSet.hpp"
+#include <cctype>
+
+std::string trim(const std::string& str) {
+    auto start = str.begin();
+    while (start != str.end() && std::isspace(*start)) start++;
+
+    auto end = str.end();
+    do {
+        end--;
+    } while (std::distance(start, end) > 0 && std::isspace(*end));
+
+    return std::string(start, end + 1);
+}
+
+std::string getValidatedInput(const std::string& prompt) {
+    std::string input;
+    while (true) {
+        std::cout << prompt;
+        std::getline(std::cin, input);
+        input = trim(input);
+
+        if (input.empty()) {
+            std::cout << "Cancelled.\n";
+            return "";
+        }
+
+        // valid (not just whitespace)
+        return input;
+    }
+}
 
 int main() {
     LoopSet myPlaylist;
@@ -64,33 +95,35 @@ int main() {
                 myPlaylist.playPrevious();
                 break;
             case 4: {
-                std::string title, artist;
-                int minutes, seconds;
+                // get title
+                std::string title = getValidatedInput("Enter title (or leave blank to cancel): ");
+                if (title.empty()) break;
 
-                std::cout << "Enter title: ";
-                std::getline(std::cin, title);
-                std::cout << "Enter artist: ";
-                std::getline(std::cin, artist);
+                // get artist
+                std::string artist = getValidatedInput("Enter artist (or leave blank to cancel): ");
+                if (artist.empty()) break;
 
-                std::cout << "Enter minutes: ";
-                std::cin >> minutes;
-                if (std::cin.fail() || minutes < 0) {
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cout << "Invalid minutes input.\n";
-                    break;
+                std::string input;
+                int minutes = -1, seconds = -1;
+
+                // get minutes
+                while (true) {
+                    std::cout << "Enter minutes: ";
+                    std::getline(std::cin, input);
+                    std::stringstream ss(input);
+                    if ((ss >> minutes) && minutes >= 0) break;
+                    std::cout << "Invalid input. Try again.\n";
                 }
 
-                std::cout << "Enter seconds: ";
-                std::cin >> seconds;
-                if (std::cin.fail() || seconds < 0 || seconds > 59) {
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cout << "Invalid seconds input. Must be 0-59.\n";
-                    break;
+                // get seconds
+                while (true) {
+                    std::cout << "Enter seconds: ";
+                    std::getline(std::cin, input);
+                    std::stringstream ss(input);
+                    if ((ss >> seconds) && seconds >= 0 && seconds < 60) break;
+                    std::cout << "Invalid input. Try again.\n";
                 }
 
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 myPlaylist.addSong(title, artist, minutes, seconds);
                 break;
             }
