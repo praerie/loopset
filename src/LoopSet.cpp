@@ -123,10 +123,17 @@ bool LoopSet::removeSong(std::string title) {
 }
 
 bool LoopSet::findSong(const std::string& title) {
-    Node* temp = head;
+    auto toLower = [](std::string str) {
+        std::transform(str.begin(), str.end(), str.begin(),
+                       [](unsigned char c) { return std::tolower(c); });
+        return str;
+    };
 
+    std::string loweredTitle = toLower(title);
+
+    Node* temp = head;
     while (temp != nullptr) {
-        if (temp->song.title == title) {
+        if (toLower(temp->song.title) == loweredTitle) {
             std::cout << "Found: \"" << temp->song.title << "\" by "
                       << temp->song.artist << " ("
                       << temp->song.minutes << "m "

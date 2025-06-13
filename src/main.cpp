@@ -135,9 +135,8 @@ int main() {
                 break;
             }
             case 6: {
-                std::string title;
-                std::cout << "Enter song title to find: ";
-                std::getline(std::cin, title);
+                std::string title = getValidatedInput("Enter song title to find (or leave blank to cancel): ");
+                if (title.empty()) break;
                 myPlaylist.findSong(title);
                 break;
             }
