@@ -10,6 +10,9 @@ enum class SortBy {
     Duration
 };
 
+/**
+ * @brief Manages a doubly-linked list of songs as a looping playlist.
+ */
 class LoopSet {
 private:
     Node* head;

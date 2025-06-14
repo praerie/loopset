@@ -25,6 +25,18 @@ void LoopSet::restoreCurrentByTitle(const std::string& title) {
     }
 }
 
+/**
+ * @brief Adds a new song to the end of the playlist.
+ * 
+ * This function creates a new Song object with the given title, artist, 
+ * and duration (mins and secs), wraps it in a Node, and appends it to the playlist.
+ * If the playlist is empty, the new song becomes the head, tail, and current.
+ * 
+ * @param title The title of the song.
+ * @param artist The artist of the song.
+ * @param minutes The duration of the song in minutes.
+ * @param seconds The duration of the song in seconds.
+ */
 void LoopSet::addSong(std::string title, std::string artist, int minutes, int seconds) {
     Song newSong(title, artist, minutes, seconds);  // create a Song object
     Node* newNode = new Node(newSong);  // wrap it in a new Node
@@ -44,6 +56,13 @@ void LoopSet::addSong(std::string title, std::string artist, int minutes, int se
 
 }
 
+/**
+ * @brief Displays all songs in the playlist.
+ * 
+ * Prints each song in the playlist to the console, indicating the currently
+ * playing song with a ">>" marker. If the playlist is empty, displays a message
+ * stating that the playlist is empty.
+ */
 void LoopSet::displayPlaylist() {
     Node* temp = head;
     if (!temp) {
@@ -60,6 +79,12 @@ void LoopSet::displayPlaylist() {
     }
 }
 
+/**
+ * @brief Advances the current pointer to the next song in the playlist.
+ * 
+ * If at the end of the list, wraps around to the head.
+ * Does not print any output.
+ */
 void LoopSet::playNext() {
     if (!current) {
         std::cout << "Playlist is empty.\n";
@@ -73,6 +98,12 @@ void LoopSet::playNext() {
     }
 }
 
+/**
+ * @brief Moves the current pointer to the previous song in the playlist.
+ * 
+ * If at the beginning of the list, wraps around to the tail.
+ * Does not print any output.
+ */
 void LoopSet::playPrevious() {
     if (!current) {
         std::cout << "Playlist is empty.\n";
@@ -86,6 +117,18 @@ void LoopSet::playPrevious() {
     }
 }
 
+/**
+ * @brief Removes a song from the playlist by title (case-insensitive).
+ * 
+ * The input title is normalized to lowercase for comparison, but the original
+ * song title's casing is preserved for display messages. If the song is found,
+ * it is removed from the linked list, memory is freed, and a success message
+ * is printed. If the song is currently playing, the 'current' pointer is updated
+ * to the next song, or to the head if no next exists.
+ * 
+ * @param titleInput The title of the song to remove, as entered by the user.
+ * @return true if the song was successfully removed, false if not found.
+ */
 bool LoopSet::removeSong(std::string titleInput) {
     std::string originalTitle = "";
     std::string loweredTitle = toLower(titleInput);
@@ -124,6 +167,16 @@ bool LoopSet::removeSong(std::string titleInput) {
     return false;
 }
 
+/**
+ * @brief Searches the playlist for a song by title (case-insensitive).
+ * 
+ * If the song is found, it displays its full details and prompts the user
+ * for an action: play the song, remove it, or do nothing. The original
+ * casing of the song title is preserved for user-facing messages.
+ * 
+ * @param titleInput The title of the song to search for, as entered by the user.
+ * @return true if the song was found, false otherwise.
+ */
 bool LoopSet::findSong(const std::string& titleInput) {
     std::string originalTitle = "";
     std::string loweredTitle = toLower(titleInput);
@@ -167,6 +220,15 @@ bool LoopSet::findSong(const std::string& titleInput) {
     return false;
 }
 
+/**
+ * @brief Shuffles the playlist while preserving the current song.
+ * 
+ * This function randomizes the order of the songs in the playlist
+ * using std::shuffle, relinks the nodes accordingly, 
+ * and restores the current song by matching its original title.
+ * 
+ * If the playlist is empty or has only one song, it skips shuffling.
+ */
 void LoopSet::shufflePlaylist() {
     //step 0: save current song before changes
     std::string currentTitle = current ? current->song.title : "";
@@ -207,6 +269,12 @@ void LoopSet::shufflePlaylist() {
     std::cout << "Playlist shuffled.\n";
 }
 
+/**
+ * @brief Converts a SortBy enum value to a lowercase string.
+ * 
+ * @param by The SortBy enum value.
+ * @return A string representation of the sort criterion ("title", "artist", or "duration").
+ */
 std::string sortByToString(SortBy by) {
     switch (by) {
         case SortBy::Title:    return "title";
@@ -216,6 +284,15 @@ std::string sortByToString(SortBy by) {
     }
 }
 
+/**
+ * @brief Sorts the playlist by the specified attribute (title, artist, or duration).
+ * 
+ * This function extracts all nodes into a vector, sorts them using the selected 
+ * attribute, then re-links the list in the new order. It also preserves the 
+ * currently playing song by restoring it by title after sorting.
+ * 
+ * @param by The attribute to sort the playlist by (SortBy::Title, SortBy::Artist, or SortBy::Duration).
+ */
 void LoopSet::sortPlaylist(SortBy by) {
     //step 0: save current song before changes
     std::string currentTitle = current ? current->song.title : "";
@@ -267,6 +344,15 @@ void LoopSet::sortPlaylist(SortBy by) {
     std::cout << "Playlist sorted by \"" << sortByToString(by) << "\".\n";
 }
 
+/**
+ * @brief Reverses the order of the songs in the playlist.
+ * 
+ * This function swaps the next and previous pointers for each node in the playlist
+ * to reverse the order. It also preserves the currently playing song by restoring it
+ * by title after the reversal.
+ * 
+ * If the playlist has fewer than two songs, it will print a message and return.
+ */
 void LoopSet::reversePlaylist() {
     //step 0: save current song before changes
     std::string currentTitle = current ? current->song.title : "";
@@ -297,6 +383,11 @@ void LoopSet::reversePlaylist() {
     std::cout << "Playlist order has been reversed.\n";
 }
 
+/**
+ * @brief Returns a pointer to the currently playing song node.
+ * 
+ * @return Node* Pointer to the current song node, or nullptr if the playlist is empty.
+ */
 Node* LoopSet::getCurrent() const {
     return current;
 }

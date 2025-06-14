@@ -5,6 +5,16 @@
 #include <limits>
 #include <cctype>
 
+/**
+ * @brief Handles the user interface and control flow for the playlist manager.
+ * 
+ * The main function runs an interactive loop that allows users to manage a playlist 
+ * through a text-based menu. It supports displaying, adding, removing, shuffling, 
+ * sorting, reversing, and navigating songs in the playlist. It also handles input 
+ * validation and maintains the current song state throughout the session.
+ * 
+ * @return int Exit status code.
+ */
 int main() {
     LoopSet myPlaylist;
 
