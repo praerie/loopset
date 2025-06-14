@@ -52,7 +52,7 @@ loopset/
 
 4. **Compile the program:**
 
-   ```bash
+   ```bashhttps://github.com/praerie/loopset/blob/main/README.md
    g++ -std=c++11 -Iinclude src/*.cpp -o loopset.exe
    ```
 
