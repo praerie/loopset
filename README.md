@@ -45,7 +45,7 @@ loopset/
 3. **Navigate to your project folder:**
 
    ```bash
-   cd /c/Users/yourname/Documents/Coding\ Projects/loopset
+   cd /c/Users/yourname/Documents/Projects/loopset
    ```
 
    *(Adjust the path based on where you cloned or saved the project.)*
